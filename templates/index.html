@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ DEFAULT_LANG }}">
 <head>
+  {% block head %}
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="{{ SITEURL }}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{{ SITEURL }}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  {% endblock head %}
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -79,7 +81,7 @@
 
     </div>
   </div>
-
+  {% block footer %}
   <footer class="page-footer orange">
     <div class="container">
       <div class="row">
@@ -115,12 +117,14 @@
       </div>
     </div>
   </footer>
-
+  {% endblock footer%}
 
   <!--  Scripts-->
+  {% block scripts %}
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{{ SITEURL }}/theme/js/materialize.js"></script>
   <script src="{{ SITEURL }}/theme/js/init.js"></script>
-
+  {% endblock scripts %}
+  {% include 'analytics.html' %}
   </body>
 </html>
