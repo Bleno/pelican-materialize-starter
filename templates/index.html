@@ -1,176 +1,59 @@
-<!DOCTYPE html>
-<html lang="{{ DEFAULT_LANG }}">
-<head>
-  {% block head %}
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
+{% extends "base.html" %}
+{% block content_title %}{% endblock %}
+{% block content %}
+{% if articles %}
+    {% for article in articles_page.object_list %}
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="{{ SITEURL }}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="{{ SITEURL }}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  {% if FEED_ALL_ATOM %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
-  {% endif %}
-  {% if FEED_ALL_RSS %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
-  {% endif %}
+        {# First item #}
+        {% if loop.first and not articles_page.has_previous() %}
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h1>
+                    {% include 'article_infos.html' %}{{ article.content }}{% include 'comments.html' %}
+                </article>
+            </aside><!-- /#featured -->
+            {% if loop.length > 1 %}
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+            {% endif %}
+        {# other items #}
+        {% else %}
+            {% if loop.first %}
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="{{ articles_paginator.per_page -1 }}">
+            {% endif %}
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark"
+                           title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h1>
+                </header>
 
-  <!--[if IE]>
-      <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  {% endblock head %}
-</head>
-<body>
-    {% if NAVBARFIXED %}
-    <div class="navbar-fixed">
-    {% endif %}
-      <nav class="light-blue lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="{{ SITEURL }}/" class="brand-logo">{{ SITENAME }} {% if SITESUBTITLE %} <strong>{{ SITESUBTITLE }}</strong>{% endif %}</a>
-          <ul class="right hide-on-med-and-down">
-          {% for title, link in MENUITEMS %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
-            <li><a href="{{ link }}">{{ title }}</a></li>
-          {% endfor %}
-          {% if DISPLAY_PAGES_ON_MENU -%}
-          {% for pg in PAGES %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
-            <li{% if pg == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ pg.url }}">{{ pg.title }}</a></li>
-          {% endfor %}
-          {% endif %}
-          {% if DISPLAY_CATEGORIES_ON_MENU -%}
-          {% for cat, null in categories %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
-            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-          {% endfor %}
-          {% endif %}
-          </ul>
-
-          <ul id="nav-mobile" class="side-nav">
-          {% for title, link in MENUITEMS %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
-            <li><a href="{{ link }}">{{ title }}</a></li>
-          {% endfor %}
-          {% if DISPLAY_PAGES_ON_MENU -%}
-          {% for pg in PAGES %}
-            <li><a href="#">Navbar Link</a></li>
-            <li{% if pg == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ pg.url }}">{{ pg.title }}</a></li>
-          {% endfor %}
-          {% endif %}
-          {% if DISPLAY_CATEGORIES_ON_MENU -%}
-          {% for cat, null in categories %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
-            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-          {% endfor %}
-          {% endif %}
-          </ul>
-          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-        </div>
-      </nav>
-    {% if NAVBARFIXED %}
-    </div>
-    {% endif %}
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">Starter Template</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      </div>
-      <br><br>
-
-    </div>
-  </div>
-
-
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <br><br>
-
-    <div class="section">
-
-    </div>
-  </div>
-  {% block footer %}
-  <footer class="page-footer orange">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-  {% endblock footer%}
-
-  <!--  Scripts-->
-  {% block scripts %}
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{{ SITEURL }}/theme/js/materialize.js"></script>
-  <script src="{{ SITEURL }}/theme/js/init.js"></script>
-  {% endblock scripts %}
-  {% include 'analytics.html' %}
-  </body>
-</html>
+                <div class="entry-content">
+                {% include 'article_infos.html' %}
+                {{ article.summary }}
+                <a class="readmore" href="{{ SITEURL }}/{{ article.url }}">read more</a>
+                {% include 'comments.html' %}
+                </div><!-- /.entry-content -->
+            </article></li>
+        {% endif %}
+        {% if loop.last %}
+            {% if loop.length > 1 or articles_page.has_other_pages() %}
+                </ol><!-- /#posts-list -->
+                {% if articles_page.has_other_pages() %}
+                    {% include 'pagination.html' %}
+                {% endif %}
+                </section><!-- /#content -->
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+<section id="content" class="body">
+<h2>Pages</h2>
+    {% for page in PAGES %}
+        <li><a href="{{ SITEURL }}/{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock content %}
