@@ -71,6 +71,7 @@
     {% if NAVBARFIXED %}
     </div>
     {% endif %}
+  {% block content %}
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
@@ -127,6 +128,7 @@
 
     </div>
   </div>
+  {% endblock %}
   {% block footer %}
   <footer class="page-footer orange">
     <div class="container">
