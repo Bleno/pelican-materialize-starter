@@ -10,21 +10,67 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="{{ SITEURL }}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{{ SITEURL }}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  {% if FEED_ALL_ATOM %}
+  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
+  {% endif %}
+  {% if FEED_ALL_RSS %}
+  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
+  {% endif %}
+
+  <!--[if IE]>
+      <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
   {% endblock head %}
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+    {% if NAVBARFIXED %}
+    <div class="navbar-fixed">
+    {% endif %}
+      <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="{{ SITEURL }}/" class="brand-logo">{{ SITENAME }} {% if SITESUBTITLE %} <strong>{{ SITESUBTITLE }}</strong>{% endif %}</a>
+          <ul class="right hide-on-med-and-down">
+          {% for title, link in MENUITEMS %}
+            <!-- <li><a href="#">Navbar Link</a></li> -->
+            <li><a href="{{ link }}">{{ title }}</a></li>
+          {% endfor %}
+          {% if DISPLAY_PAGES_ON_MENU -%}
+          {% for pg in PAGES %}
+            <!-- <li><a href="#">Navbar Link</a></li> -->
+            <li{% if pg == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ pg.url }}">{{ pg.title }}</a></li>
+          {% endfor %}
+          {% endif %}
+          {% if DISPLAY_CATEGORIES_ON_MENU -%}
+          {% for cat, null in categories %}
+            <!-- <li><a href="#">Navbar Link</a></li> -->
+            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
+          {% endfor %}
+          {% endif %}
+          </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul id="nav-mobile" class="side-nav">
+          {% for title, link in MENUITEMS %}
+            <!-- <li><a href="#">Navbar Link</a></li> -->
+            <li><a href="{{ link }}">{{ title }}</a></li>
+          {% endfor %}
+          {% if DISPLAY_PAGES_ON_MENU -%}
+          {% for pg in PAGES %}
+            <li><a href="#">Navbar Link</a></li>
+            <li{% if pg == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ pg.url }}">{{ pg.title }}</a></li>
+          {% endfor %}
+          {% endif %}
+          {% if DISPLAY_CATEGORIES_ON_MENU -%}
+          {% for cat, null in categories %}
+            <!-- <li><a href="#">Navbar Link</a></li> -->
+            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
+          {% endfor %}
+          {% endif %}
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+      </nav>
+    {% if NAVBARFIXED %}
     </div>
-  </nav>
+    {% endif %}
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
