@@ -133,37 +133,47 @@
   <footer class="page-footer orange">
     <div class="container">
       <div class="row">
+        {% if ABOUTCOMPANY%}
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
+          {% for name, bio in ABOUTCOMPANY %}
+            <h5 class="white-text">{{ name }}</h5>
+            <p class="grey-text text-lighten-4">{{ bio }}</p>
+          {% endfor %}
         </div>
+        {% endif %}
+        {% if SOCIAL or FEED_ALL_ATOM or FEED_ALL_RSS %}
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+          <h5 class="white-text">Social</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            {% if FEED_ALL_ATOM %}
+              <li><a class="white-text" href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate">atom feed</a></li>
+              {% endif %}
+              {% if FEED_ALL_RSS %}
+              <li><a class="white-text" href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate">rss feed</a></li>
+            {% endif %}
+            {% for name, link in SOCIAL %}
+              <li><a class="white-text" href="{{ link }}">{{ name }}</a></li>
+            {% endfor %}
           </ul>
         </div>
+        {% endif %}
+        {% if LINKS %}
         <div class="col l3 s12">
           <h5 class="white-text">Connect</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+          {% for name, link in LINKS %}
+            <li><a class="white-text" href="{{ link }}">{{ name }}</a></li>
+          {% endfor %}
           </ul>
         </div>
+        {% endif %}
       </div>
     </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    {% if COPYRIGHT %}
+      <div class="footer-copyright">
+         {{ COPYRIGHT }}
       </div>
-    </div>
+    {% endif %}
   </footer>
   {% endblock footer%}
 
