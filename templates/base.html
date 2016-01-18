@@ -26,8 +26,8 @@
     {% if NAVBARFIXED %}
     <div class="navbar-fixed">
     {% endif %}
-      <nav class="light-blue lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="{{ SITEURL }}/" class="brand-logo">{{ SITENAME }} {% if SITESUBTITLE %} <strong>{{ SITESUBTITLE }}</strong>{% endif %}</a>
+      <nav class="z-depth-3 {{ NAVCOLLOR }}" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="{{ SITEURL }}/" class="brand-logo z-depth-1">{{ SITENAME }} {% if SITESUBTITLE %} <strong>{{ SITESUBTITLE }}</strong>{% endif %}</a>
           <ul class="right hide-on-med-and-down">
           {% for title, link in MENUITEMS %}
             <!-- <li><a href="#">Navbar Link</a></li> -->
