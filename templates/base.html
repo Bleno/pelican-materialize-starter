@@ -8,8 +8,8 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="{{ SITEURL }}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="{{ SITEURL }}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   {% if FEED_ALL_ATOM %}
   <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
   {% endif %}
@@ -54,13 +54,11 @@
           {% endfor %}
           {% if DISPLAY_PAGES_ON_MENU -%}
           {% for pg in PAGES %}
-            <li><a href="#">Navbar Link</a></li>
             <li{% if pg == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ pg.url }}">{{ pg.title }}</a></li>
           {% endfor %}
           {% endif %}
           {% if DISPLAY_CATEGORIES_ON_MENU -%}
           {% for cat, null in categories %}
-            <!-- <li><a href="#">Navbar Link</a></li> -->
             <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
           {% endfor %}
           {% endif %}
@@ -180,8 +178,8 @@
   <!--  Scripts-->
   {% block scripts %}
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{{ SITEURL }}/theme/js/materialize.js"></script>
-  <script src="{{ SITEURL }}/theme/js/init.js"></script>
+  <script src="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/js/materialize.js"></script>
+  <script src="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/js/init.js"></script>
   {% endblock scripts %}
   {% include 'analytics.html' %}
   </body>
