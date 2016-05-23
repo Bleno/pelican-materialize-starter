@@ -9,7 +9,7 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- <link href="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
-  <link  href="http://materializecss.com/dist/css/materialize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
   <link href="http://materializecss.com/templates/starter-template/css/style.css" rel="stylesheet" media="screen,projection"/>
   <!-- <link href="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
   {% if FEED_ALL_ATOM %}
@@ -23,8 +23,21 @@
       <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   {% endblock head %}
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      background: #FFC1C1;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+  </style>
 </head>
 <body>
+<main>
     {% if NAVBARFIXED %}
     <div class="navbar-fixed">
     {% endif %}
@@ -129,6 +142,7 @@
     </div>
   </div>
   {% endblock %}
+  </main>
   {% block footer %}
   <footer class="page-footer orange">
     <div class="container">
@@ -179,12 +193,13 @@
 
   <!--  Scripts-->
   {% block scripts %}
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="http://materializecss.com/bin/materialize.js"></script>
-  <script src="http://materializecss.com/templates/starter-template/js/init.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <script src="http://materializecss.com/js/init.js"></script>
   <!-- // <script src="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/js/materialize.js"></script> -->
   <!-- // <script src="{{ SITEURL }}{% if SUBPATH %} {{ SUBPATH }}{% endif %}/theme/js/init.js"></script> -->
   {% endblock scripts %}
   {% include 'analytics.html' %}
   </body>
+
 </html>
